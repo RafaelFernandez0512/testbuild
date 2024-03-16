@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SigeTools.ViewModel"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:gv="clr-namespace:GoogleVisionBarCodeScanner;assembly=BarcodeScanner.XF"
+    Title="Consulta Inventario"
+    x:Class="SigeTools.View.ConsultaInventarioPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolean"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid IsVisible="{Binding IsScanning}" RowDefinitions="*">
+            <Grid IsVisible="{Binding ShowScanner, Converter={x:StaticResource invertBoolean}}" RowDefinitions="Auto,100,Auto">
+                <Label FontSize="Title" Text="Digite el código de barras" Margin="40,0" HorizontalTextAlignment="Center" />
+                <SearchBar Grid.Row="1"  IsVisible="{Binding IsNotBusy}" Keyboard="Numeric" FontSize="Title" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding UpcText}" SearchCommand="{Binding SearchCommand}" />
+                <Button Grid.Row="2" IsVisible="{Binding IsNotBusy}" HeightRequest="100" Margin="0,30" HorizontalOptions="Center" WidthRequest="200" Text="Usar Scanner" Background="#2196F3" TextColor="White" Command="{Binding ToogleScannerCommand}"/>
+                <ActivityIndicator Grid.Row="2" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+            </Grid>
+            <Grid IsVisible="{Binding ShowScanner}" RowDefinitions="Auto,350,Auto">
+                <Label FontSize="Title" Text="Lea el código del producto" Margin="40,0" HorizontalTextAlignment="Center" />
+                <gv:CameraView Margin="0,40" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1"
+                                DefaultTorchOn="False" VibrationOnDetected="True" AutoStartScanning="False" RequestedFPS="30">
+                    <gv:CameraView.Behaviors>
+                        <xct:EventToCommandBehavior EventName="OnDetected" Command="{Binding ScanDetectedCommand}"/>
+                    </gv:CameraView.Behaviors>
+                </gv:CameraView>
+                <Button Grid.Row="2" HeightRequest="100" Margin="0,30" IsVisible="{Binding IsNotBusy}" HorizontalOptions="Center"  WidthRequest="200" Text="Quitar Scanner" Background="#2196F3" TextColor="White" Command="{Binding ToogleScannerCommand}"/>
+                <ActivityIndicator Grid.Row="2" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+            </Grid>
+        </Grid>
+        <Grid RowDefinitions="Auto,*,Auto" IsVisible="{Binding IsScanning, Converter={x:StaticResource invertBoolean}}">
+            <Frame HasShadow = "False" Padding="5" Margin="10" BorderColor="Silver">
+                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" >
+                    <Label Text="{Binding Resultado.Producto.Nombre}" FontSize="16" FontAttributes="Bold"/>
+                    <Label Text="{Binding Resultado.Producto.Referencia}" FontSize="16" Grid.Row="1"/>
+                    <Label Text="{Binding Resultado.Producto.Precio,StringFormat='{0:C2}'}" FontSize="16" VerticalTextAlignment="Center" TextColor="Navy" Grid.RowSpan="2" Grid.Column="1" HorizontalTextAlignment="End" FontAttributes="Bold"/>
+                </Grid>
+            </Frame>
+            <ListView Margin="20" Grid.Row="1" ItemsSource="{Binding Resultado.Inventario}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid ColumnDefinitions="*,*,*">
+                                <Label Text="{Binding Almacen}" Grid.Column="0"/>
+                                <Label Text="{Binding Ubicacion}" Grid.Column="1"/>
+                                <Label Text="{Binding Disponible, StringFormat='{0:N3}'}" HorizontalTextAlignment="End" Grid.Column="2"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid Grid.Row="2" Margin="30" HeightRequest="60" ColumnSpacing="20" ColumnDefinitions="*,Auto">
+                <Button FontSize="Title" Command="{Binding ContinueScanningCommand}"  BackgroundColor="#2196F3" TextColor="White" Text="Regresar"/>
+                <Label Text="{Binding Resultado.Disponible,StringFormat='{0:N3}'}" FontSize="Subtitle" VerticalTextAlignment="Center" TextColor="Green"  Grid.Column="1" HorizontalTextAlignment="End" FontAttributes="Bold"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

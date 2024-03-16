@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SigeTools.ViewModel"
+    xmlns:sfNum="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:gv="clr-namespace:GoogleVisionBarCodeScanner;assembly=BarcodeScanner.XF"
+    Title="Conteo Físico"
+    x:Name="rootElement"
+    x:Class="SigeTools.View.TomaInventarioPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="invertBoolean"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:TomaInventarioPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Enviar"
+                     Command="{Binding SendLineCommand}"/>
+    </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid IsVisible="{Binding IsScanning}" RowDefinitions="Auto,*">
+            <Grid IsVisible="{Binding ShowScanner, Converter={x:StaticResource invertBoolean}}" RowDefinitions="Auto,100,Auto" ColumnDefinitions="*,*">
+                <Entry Grid.Column="0" Margin="10" Placeholder="Almacen" Text="{Binding Almacen}" FontSize="Title"/>
+                <Entry Grid.Column="1" Margin="10" Placeholder="Ubicacion" FontSize="Title" Text="{Binding LocationId}"/>
+                <SearchBar Grid.ColumnSpan="2" IsVisible="{Binding IsNotBusy}"  Grid.Row="1" Keyboard="Numeric" FontSize="Title" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding UpcText}" SearchCommand="{Binding SearchCommand}" />
+                <Button Grid.Row="2" IsVisible="{Binding IsNotBusy}" Grid.ColumnSpan="2" HeightRequest="100" Margin="0,30" HorizontalOptions="Center" WidthRequest="200" Text="Usar Scanner" Background="#2196F3" TextColor="White" Command="{Binding ToogleScannerCommand}"/>
+                <ActivityIndicator Grid.Row="2" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+            </Grid>
+            <Grid IsVisible="{Binding ShowScanner}" RowDefinitions="Auto,350,Auto">
+                <Label FontSize="20" Text="Lea el código del producto" Margin="40,0" HorizontalTextAlignment="Center" />
+                <gv:CameraView Margin="0,40" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1"
+                                DefaultTorchOn="False" VibrationOnDetected="True" AutoStartScanning="False" RequestedFPS="30">
+                    <gv:CameraView.Behaviors>
+                        <xct:EventToCommandBehavior EventName="OnDetected" Command="{Binding ScanDetectedCommand}"/>
+                    </gv:CameraView.Behaviors>
+                </gv:CameraView>
+                <Button Grid.Row="2" IsVisible="{Binding IsNotBusy}" HeightRequest="100" Margin="0,30" HorizontalOptions="Center"  WidthRequest="200" Text="Quitar Scanner" Background="#2196F3" TextColor="White" Command="{Binding ToogleScannerCommand}"/>
+                <ActivityIndicator Grid.Row="2" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+            </Grid>
+            <ListView Margin="20" Grid.Row="1" RowHeight="70" SelectionMode="None" ItemsSource="{Binding Orden.Lineas}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <SwipeView >
+                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+                                    <Label VerticalTextAlignment="Center" Text="{Binding Descripcion}" Grid.Column="0"/>
+                                    <sfNum:SfNumericTextBox Value="{Binding Cantidad}" Grid.Column="1" VerticalOptions="Center" TextAlignment="Center" MaximumNumberDecimalDigits="3" Grid.Row="0"/>
+                                    <!--<Label VerticalTextAlignment="Center" Text="{Binding Precio, StringFormat='{0:C2}'}" Grid.Row="1" HorizontalTextAlignment="End" Grid.Column="1"/>
+                                    <Label VerticalTextAlignment="Center" Text="{Binding Total, StringFormat='{0:C2}'}" Grid.Row="1" HorizontalTextAlignment="End" Grid.Column="2"/>-->
+                                </Grid>
+                                <SwipeView.RightItems>
+                                    <SwipeItems Mode="Reveal">
+                                        <SwipeItem Text="Borrar" BackgroundColor="Red" Command="{Binding Source={x:Reference rootElement}, Path=BindingContext.RemoveLineCommand}" CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                            </SwipeView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</ContentPage>

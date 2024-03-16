@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>596947851825-iu0oh8auh5dk6nmn1u254ra7i5devqf3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.596947851825-iu0oh8auh5dk6nmn1u254ra7i5devqf3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCmX3NW9hLMQRpyO1QSVOwt697uk-IPZjA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>596947851825</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.barolit.SigeTools</string>
+	<key>PROJECT_ID</key>
+	<string>sige-4b050</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sige-4b050.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:596947851825:ios:760244f614dac26aedd310</string>
+</dict>
+</plist>

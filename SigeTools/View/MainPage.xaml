@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SigeTools.ViewModel"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             Title="Sige Mobile Tools"
+             x:Class="SigeTools.View.MainPage">
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salir" Command="{Binding LogoutCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="White">
+            <Frame Grid.Row="0" Padding="24" CornerRadius="0">
+                <Image Source="{Binding CompanyInfo.CompanyLogo,Converter={StaticResource ByteArrayToImageSourceConverter}}" HorizontalOptions="Center" VerticalOptions="Start"
+                       WidthRequest="150"
+                       HeightRequest="150" />
+            </Frame>
+
+
+            <Button HeightRequest="60" FontSize="Title" Command="{Binding ShowConsultaCommand}" Grid.Row="1"
+                    IsVisible="{Binding ShowProduct}"
+                    BackgroundColor="#2196F3" TextColor="White" Margin="30,30" Text="Consultar Productos" />
+            <Button HeightRequest="60" FontSize="Title" Command="{Binding ShowPedidoCommand}" Grid.Row="2"
+                    BackgroundColor="#2196F3" TextColor="White" Margin="30,30" Text="Pedido de Venta" 
+                    IsVisible="{Binding ShowPedido}"/>
+            <Button HeightRequest="60" FontSize="Title" Command="{Binding ShowConteoCommand}" Grid.Row="3"
+                    BackgroundColor="#2196F3" TextColor="White" Margin="30,30" Text="Conteo Físico"
+                    IsVisible="{Binding ShowConteo}"/>
+            <Button HeightRequest="60" FontSize="Title" Command="{Binding ShowInventariosCommand}" 
+                    BackgroundColor="#2196F3" TextColor="White" Margin="30,30" Text="Inventarios Disponible"
+                    IsVisible="{Binding ShowInventory}"/>
+            <Button HeightRequest="60" FontSize="Title" Command="{Binding ShowReportCommand}" Grid.Row="4"
+                    IsVisible="{Binding ShowReport}"
+                    BackgroundColor="#2196F3" TextColor="White" Margin="30,30" Text="Reportes" />
+            
+            <Label Text="{Binding Usuario}" HorizontalTextAlignment="Center" VerticalOptions="Fill" Grid.Row="5"
+                   Margin="0,30" />
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

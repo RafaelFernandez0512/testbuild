@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:SigeTools.ViewModel;assembly=SigeTools"
+             x:Class="SigeTools.View.ReportsPage"
+             Title="Menu de reportes"
+             >
+    <ContentPage.Content>
+        <CollectionView ItemsSource="{Binding MenuReports}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Button HeightRequest="60" FontSize="Title"  Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ReportsViewModel}},Path=NavigateToReportCommand}"
+                                BackgroundColor="#2196F3" TextColor="White" Margin="30,30" Text="{Binding Title}"
+                                CommandParameter="{Binding .}"/>
+                        
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

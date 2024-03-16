@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:SigeMobile.Model;assembly=SigeTools"
+             xmlns:viewModel="clr-namespace:SigeTools.ViewModel;assembly=SigeTools"
+             x:Class="SigeTools.View.InventariosPage"
+             x:DataType="viewModel:InventariosViewModel"
+             Title="Inventario Disponible">
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,*"
+              Padding="5,10">
+            <SearchBar Placeholder="Buscar productos..."
+                       Text="{Binding SearchText}"/>
+            <CollectionView ItemsSource="{Binding Productos}"
+                            Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Producto">
+                    <StackLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TapItemCommand,Source={RelativeSource AncestorType={x:Type viewModel:InventariosViewModel}}}"
+                                                  CommandParameter="{Binding .}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Frame HasShadow="False" Padding="10" Margin="10" BorderColor="Silver">
+                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding ProductoId}" FontSize="16" FontAttributes="Bold" />
+                                <Label Text="{Binding Nombre}" FontSize="16" Grid.Row="1" />
+                                <Label Text="{Binding Precio,StringFormat='{0:C2}'}" FontSize="16"
+                                       VerticalTextAlignment="Center" TextColor="Navy" Grid.Row="0" Grid.Column="1"
+                                       HorizontalTextAlignment="End" FontAttributes="Bold" />
+                                <Label Text="{Binding Existencia,StringFormat='{0:#,0}'}" FontSize="16"
+                                       VerticalTextAlignment="Center" TextColor="Green" Grid.Row="1" Grid.Column="1"
+                                       HorizontalTextAlignment="End" FontAttributes="Bold" />
+
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>
