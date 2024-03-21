@@ -313,7 +313,7 @@
                                 FontAttributes="Bold"
                                 Grid.Column="{Binding Column}"
                                 
-                                FontSize="16" />
+                                FontSize="14" />
                      </DataTemplate>
                  </BindableLayout.ItemTemplate>
              </Grid>

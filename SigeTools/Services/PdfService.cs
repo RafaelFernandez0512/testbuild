@@ -71,13 +71,10 @@ namespace SigeTools.Services
                 table.Cell()
                     .Row(2)
                     .Text(companyInfo.CompanyName).Style(titleStyle);
-
-                table.Cell().Row(3).Text("Santo Domingo").FontSize(titleSize);
-                table.Cell().Row(4).Text("Dominican Republic").FontSize(titleSize);
-                table.Cell().Row(5).Text(companyInfo.CompanyPhone).FontSize(titleSize);
+                table.Cell().Row(3).Text(companyInfo.CompanyPhone).FontSize(titleSize);
                 //companyInfo
-                table.Cell().Row(2).RowSpan(4).Column(2).AlignRight().Text("CUOTA").FontSize(40);
-                table.Cell().Row(6).Column(2).AlignRight().Text($"# QT-{orden.OrdenId.PadLeft(5,'0')??""}").FontSize(titleSize);
+                table.Cell().Row(3).Column(2).AlignRight().Text("Cotización").FontSize(40);
+                table.Cell().Row(4).Column(2).AlignRight().Text($"# QT-{orden.OrdenId.PadLeft(5,'0')??""}").FontSize(titleSize);
             });
         }
 
