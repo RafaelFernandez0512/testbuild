@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:SigeTools.MAUI.Helpers"
+             xmlns:model="clr-namespace:SigeTools.MAUI.Model"
+             xmlns:templates="clr-namespace:SigeTools.MAUI.Views.Templates"
+             xmlns:viewModels="clr-namespace:SigeTools.MAUI.ViewModels"
+             x:Class="SigeTools.MAUI.Views.ReportPage">
+<ContentPage.Resources>
+        <Style TargetType="Label" x:Key="SubtitleLabel">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+        <Style TargetType="Label" x:Key="TitleLabel">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+        <helpers:TextSizeToRingSizeConverter x:Key="TextSizeToRingSizeConverter" />
+        <DataTemplate x:Key="SalesDayTemplate"
+                      x:DataType="model:SalesDayReport">
+            <Grid ColumnDefinitions="*,*,*,*"
+                  Padding="10,15">
+                    <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Label Text="{Binding Day}" 
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="0"/>
+                <Label Text="{Binding Cash,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="1"/>
+                <Label Text="{Binding Other,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="2"/>
+                <Label Text="{Binding Total,StringFormat='${0:#,0}'}"
+                       FontAttributes="Bold"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="3"
+                       Margin="5"
+                       HorizontalOptions="End"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="SalesMonthTemplate"
+                      x:DataType="model:SalesMonthReport">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto"
+                  Padding="10,15">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Label Text="{Binding MonthName}"
+                       Style="{StaticResource SubtitleLabel}"
+                />
+                <Label Text="{Binding Total,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="Center"
+                      
+                       Grid.Column="1"
+                       HorizontalOptions="End"/>
+                <Line HeightRequest="1"
+                      Grid.ColumnSpan="2"
+                      BackgroundColor="LightGray"
+                      HorizontalOptions="End"
+                      Grid.Row="1"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="SalesGroupReportTemplate"
+                      x:DataType="model:SalesGroupReport">
+            <Grid ColumnDefinitions="*,*,*" Padding="10,15"
+                  RowDefinitions="Auto,Auto">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Label Text="{Binding Group}"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="0"/>
+                <Label Text="{Binding Qty,StringFormat='{0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="Center"
+                       Grid.Column="1"/>
+                <Label Text="{Binding Total,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalOptions="End"
+                       Grid.Column="2"/>
+                <Line HeightRequest="1"
+                      Grid.ColumnSpan="2"
+                      BackgroundColor="LightGray"
+                      HorizontalOptions="End"
+                      Grid.Row="1"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CustBalanceReportTemplate"
+                      x:DataType="model:CustBalanceReport">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto"
+                  Padding="10,15"
+                 >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Label Text="{Binding CustName}"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="0"/>
+                <Label Text="{Binding Balance,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="End"
+                       Grid.Column="1"/>
+                <Line HeightRequest="1"
+                      Grid.ColumnSpan="2"
+                      BackgroundColor="LightGray"
+                      HorizontalOptions="End"
+                      Grid.Row="1"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="InventoryOnHandReportTemplate"
+                      x:DataType="model:InventoryOnHandReport">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto"
+                  Padding="10,15"
+            >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Label Text="{Binding Almacen}"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="0"/>
+                <Label Text="{Binding Grupo}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="Center"
+                       Grid.Column="1"/>
+                <Label Text="{Binding Cantidad,StringFormat='{0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="Center"
+                       Grid.Column="2"/>
+                <Label Text="{Binding Total,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="End"
+                       Grid.Column="3"/>
+                <Line HeightRequest="1"
+                      Grid.ColumnSpan="2"
+                      BackgroundColor="LightGray"
+                      HorizontalOptions="End"
+                      Grid.Row="1"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="SalesProfitReportTemplate"
+                      x:DataType="model:SalesProfitReport">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto"
+                  Padding="10,15"
+            >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Label Text="{Binding PosType}"
+                       Style="{StaticResource SubtitleLabel}"
+                       Grid.Column="0"/>
+                <Label Text="{Binding CostTotal,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="Center"
+                       Grid.Column="1"/>
+                <Label Text="{Binding SalesTotal,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="Center"
+                       Grid.Column="2"/>
+                <Label Text="{Binding SalesProfit,StringFormat='${0:#,0}'}"
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalTextAlignment="End"
+                       Grid.Column="3"/>
+                <Line HeightRequest="1"
+                      Grid.ColumnSpan="2"
+                      BackgroundColor="LightGray"
+                      HorizontalOptions="End"
+                      Grid.Row="1"/>
+            </Grid>
+        </DataTemplate>
+        <templates:ReportDataTemplateSelector SalesDayReportTemplate="{StaticResource SalesDayTemplate}"
+                                              SalesGroupReportTemplate="{StaticResource SalesGroupReportTemplate}"
+                                              SalesMonthReportTemplate="{StaticResource SalesMonthTemplate}"
+                                              SalesProfitReportTemplate="{StaticResource SalesProfitReportTemplate}"
+                                              InventoryOnHandReportTemplate="{StaticResource InventoryOnHandReportTemplate}"
+                                              x:Key="ReportDataTemplateSelector"
+                                              CustBalanceReportTemplate="{StaticResource CustBalanceReportTemplate}"/>
+        
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,200,*,Auto">
+            <Picker Title="Mes"
+                    Margin="10,0"
+                    ItemsSource="{Binding Months}"
+                    IsVisible="{Binding ShowPicker}"
+                    SelectedItem="{Binding SelectMonths,Mode=TwoWay}"/>
+            <Grid Margin="5" Grid.Row="1">
+                <!-- <plugin:ProgressRing  -->
+                <!--     Progress="100" -->
+                <!--     HeightRequest="{Binding ReportSelected, Converter={StaticResource TextSizeToRingSizeConverter}}" -->
+                <!--     WidthRequest="{Binding ReportSelected, Converter={StaticResource TextSizeToRingSizeConverter}}" -->
+                <!--     RingThickness="8" -->
+                <!--     RingProgressColor="#f89c0d" -->
+                <!--     RingBaseColor="#bcd8f6" -->
+                <!-- /> -->
+                <StackLayout VerticalOptions="Center">
+                    <Label VerticalTextAlignment="Center"
+                           Text="{Binding TotalSelectedReport,StringFormat='${0:#,0}'}"
+                           Style="{StaticResource TitleLabel}"
+                           TextColor="#008f39"
+                           FontAttributes="Bold"
+                           FontSize="28"
+                           HorizontalTextAlignment="Center"/>
+                    <Label VerticalTextAlignment="Center"
+                           Text="{Binding Percentage}"
+                           Style="{StaticResource TitleLabel}"
+                           TextColor="Black"
+                           FontAttributes="Bold"
+                           FontSize="20"
+                           IsVisible="{Binding ShowPercentage}"
+                           HorizontalTextAlignment="Center"/>
+                </StackLayout>
+       
+            </Grid>
+
+          <Frame Grid.Row="2" Padding="2,10">
+              <Grid Padding="0,0,0,0"
+                    RowDefinitions="Auto,*">
+                      <Grid Margin="10,10,10,10"
+                            BindableLayout.ItemsSource="{Binding ColumnTexts}">
+
+                          <BindableLayout.ItemTemplate>
+                              <DataTemplate x:DataType="viewModels:ColumnText">
+                                  <Label Text="{Binding Text}"
+                                         VerticalOptions="Center"
+                                         TextColor="Black"
+                                         HorizontalOptions="{Binding HorizontalLayoutOptions}"
+                                         HorizontalTextAlignment="Center"
+                                         FontAttributes="Bold"
+                                         Margin="2,0"
+                                         Grid.Column="{Binding Column}"
+                                         FontSize="16" />
+                              </DataTemplate>
+                          </BindableLayout.ItemTemplate>
+                      </Grid>
+ 
+
+                 <CollectionView ItemTemplate="{StaticResource ReportDataTemplateSelector}"
+                                 Grid.Row="1"
+                                 SelectionMode="Single"
+                                 SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
+                                 ItemsSource="{Binding Reports}"/>
+                 <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                    Grid.Row="1"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    IsRunning="{Binding IsBusy}"/>
+             </Grid>
+          </Frame>
+
+         <Frame  Grid.Row="3" >
+             <Grid    
+                      BindableLayout.ItemsSource="{Binding ColumnTotalsTexts}">
+
+                 <BindableLayout.ItemTemplate>
+                     <DataTemplate x:DataType="viewModels:ColumnText">
+                         <Label Text="{Binding Text}"
+                                VerticalOptions="Center"
+                                TextColor="Black"
+                                HorizontalOptions="{Binding HorizontalLayoutOptions}"
+                                HorizontalTextAlignment="Center"
+                                FontAttributes="Bold"
+                                Grid.Column="{Binding Column}"
+                                
+                                FontSize="14" />
+                     </DataTemplate>
+                 </BindableLayout.ItemTemplate>
+             </Grid>
+         </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigeTools.iOS", "SigeTools.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigeTools", "SigeTools\SigeTools.csproj", "{E4B20BA3-3296-47CA-A810-24300E0F495B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigeTools.MAUI", "SigeTools.MAUI\SigeTools.MAUI.csproj", "{5CCC58C1-5924-4F25-B690-E2402026F406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{E4B20BA3-3296-47CA-A810-24300E0F495B}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{E4B20BA3-3296-47CA-A810-24300E0F495B}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{E4B20BA3-3296-47CA-A810-24300E0F495B}.Release|iPhone.Build.0 = Release|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{5CCC58C1-5924-4F25-B690-E2402026F406}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
